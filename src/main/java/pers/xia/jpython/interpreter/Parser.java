@@ -12,11 +12,8 @@ import java.util.List;
 
 public class Parser {
 
-    public Statement createAssignStatement(String variableName, exprType expression){
+    public Statement createAssignStatement(List<String> variableName, exprType expression){
         return new AssignStatement(variableName,parseExpression(expression));
-    }
-    public Statement createAssignStatement(ArrayList<String> variableNames, exprType expression){
-        return new AssignStatement(variableNames,parseExpression(expression));
     }
     public Expression createFunctionCallExpression(String functionName, List<Expression> parameterValues) {
         return new FunctionCallExpression(functionName, parameterValues);

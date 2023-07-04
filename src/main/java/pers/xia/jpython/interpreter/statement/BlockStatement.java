@@ -11,18 +11,26 @@ public abstract class BlockStatement implements Statement{
     private Expression expression;
     private List<Statement> body;
     private List<Statement> elseBody;
+    private List<Statement> elseBody2;
 
 
     public BlockStatement(Expression expression, List<Statement> body) {
         this.expression = expression;
         this.body = body;
         this.elseBody = new ArrayList<>();
+        this.elseBody2 = new ArrayList<>();
     }
 
     public BlockStatement(Expression expression, List<Statement> body, List<Statement> elseBody) {
         this.expression = expression;
         this.body = body;
         this.elseBody = elseBody;
+    }
+    public BlockStatement(Expression expression, List<Statement> body, List<Statement> elseBody,List<Statement> elseBody2) {
+        this.expression = expression;
+        this.body = body;
+        this.elseBody = elseBody;
+        this.elseBody2 = elseBody2;
     }
 
     public void ifBlock(ProgramState programState) {
@@ -36,7 +44,14 @@ public abstract class BlockStatement implements Statement{
 
     public void whileLoop(ProgramState programState) {
         // TODO: 完成whileLoop实现while循环
-        
+        while (true) {
+            boolean ifBreak = bodyBlock(programState);
+            if (ifBreak) {
+                break;
+            }
+
+        }
+        elseBlock(programState);
     }
 
     // 返回值为true则表示该block有需要向外传递的break

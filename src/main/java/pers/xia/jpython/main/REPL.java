@@ -128,14 +128,14 @@ public class REPL {
                     String appendStr = ignoreComment();
                     sb.append(appendStr);
                 }
-                else if(isString(c)){// get ' or " //string case
+                else if(isString(c)){          //string case
                     String appendStr = getFormatString(c);
                     sb.append(appendStr);
                 }else {
                     sb.append(readChar());
                 }
             }
-            return sb.toString();
+            return sb.toString().trim();
         }
 
         private Character peekChar(){
@@ -153,30 +153,48 @@ public class REPL {
         private String ignoreComment(){
             StringBuilder sb = new StringBuilder();
             // function to be implemented
-            while (peekChar()!=null){
-                readChar();
+            while(readChar() != null){
+                ;
             }
+            // while(peekChar() != null){
+            //     if (!isComment(peekChar())) break;
+            //     while (peekChar()!=null && peekChar() != '\n'){
+            //         readChar();
+            //     }
+            // }
+            // while (peekChar()!=null){
+            //     Character c = readChar(); // ？
+            //     if(isComment(c)){
+            //         while (peekChar() != null && peekChar() != '\n') {
+            //             readChar(); // Skip the character
+            //         }
+            //         break;
+            //     }
+            //     sb.append(c);
+            // }
+            // return "";
             return sb.toString();
         }
         public int getIndentationLevel(){
             formatEscape();// Tab 转 4Space
-            int res = 0;
-            while (peekChar() != null && peekChar() == ' '){
-                readChar();
-                res++;
-            }
             // function to be implemented;
+            int res = 0;
+            while(peekChar() != null && peekChar() == ' '){
+                res += 1;
+                readChar();
+            }
             return res;
         }
 
         private String getFormatString(Character ch){
             StringBuilder sb = new StringBuilder();
+            sb.append(readChar());
             /* sb is a StringBuilder Class, you can use append() to add a char and toString() to
-            convert it to a string class.
+                convert it to a string class.
             */
             // function to be implemented, and delete the exception clause;
             Character out_flag = ch;
-            while (peekChar() != null && peekChar() != out_flag){
+            while (peekChar() != null && (peekChar() != out_flag)){
                 sb.append(readChar());
                 // 没有考虑转义字符串
             }
@@ -219,7 +237,6 @@ public class REPL {
             return st.isEmpty();
         }
         private void formatEscape() {
-        // TAB 转 4空格 
             line = line.replace("\t","    ");
         }
         public int getNumBeforeDot(String s){

@@ -123,49 +123,55 @@ public class PyLong extends PyObject
             return new PyNone();
         }
     }
+    public PyObject mod(PyObject p) {
+        if (p instanceof PyLong){
+            return new PyLong(this.num % ((PyLong) p).asLong());
+        }
+        if (p instanceof PyFloat){
+            return new PyFloat(this.num % ((PyFloat) p).asFloat());
+        }
+        if(p instanceof PyBoolean){
+            return new PyLong(this.num % ((PyBoolean) p).asInt());
+        }
+        else{
+            super.mod(p);
+            return new PyNone();
+        }
+    }
+    public PyObject Div(PyObject p) {
+        if (p instanceof PyLong){
+            return new PyFloat((float) this.num / ((PyLong) p).asLong());
+        }
+        if (p instanceof PyFloat){
+            return new PyFloat(this.num / ((PyFloat) p).asFloat());
+        }
+        if(p instanceof PyBoolean){
+            return new PyLong(this.num / ((PyBoolean) p).asInt());
+        }
+        else{
+            super.Div(p);
+            return new PyNone();
+        }
+    }
+    public PyObject FloorDiv(PyObject p) {
+        if (p instanceof PyLong){
+            return new PyLong(this.num / ((PyLong) p).asLong());
+        }
+        if (p instanceof PyFloat){
+            return new PyFloat ((long)(this.num / ((PyFloat) p).asFloat()));
+        }
+        if(p instanceof PyBoolean){
+            return new PyLong(this.num / ((PyBoolean) p).asInt());
+        }
+        else{
+            super.FloorDiv(p);
+            return new PyNone();
+        }
+    }
 
     @Override
     public PyObject uSub() {
         return new PyLong(-this.num);
-    }
-
-    @Override
-    public PyObject mod(PyObject p){
-        if (p instanceof PyLong){
-            return new PyLong(this.num % ((PyLong)p).asLong());
-        }
-        else{
-            super.mod(p);
-            return new PyNone();
-        }
-    }
-
-    @Override
-    public PyObject div(PyObject p){
-        if(p instanceof PyLong){
-            return new PyFloat(this.num / (1.0 * ((PyLong)p).asLong()));
-        }
-        else if(p instanceof PyFloat){
-            return new PyFloat(this.num / ((PyFloat)p).asFloat());
-        }
-        else{
-            super.mod(p);
-            return new PyNone();
-        }
-    }
-
-    @Override
-    public PyObject floordiv(PyObject p){
-        if(p instanceof PyLong){
-            return new PyLong((long)(Math.floor(this.num / (1.0 * ((PyLong)p).asLong()))));
-        }
-        else if(p instanceof PyFloat){
-            return new PyLong((long)(Math.floor(this.num / ((PyFloat)p).asFloat())));
-        }
-        else{
-            super.mod(p);
-            return new PyNone();
-        }
     }
 
     @Override

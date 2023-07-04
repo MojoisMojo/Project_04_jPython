@@ -4,13 +4,13 @@ import pers.xia.jpython.ast.OperatorType;
 import pers.xia.jpython.interpreter.ProgramState;
 import pers.xia.jpython.object.*;
 
-public class BinOpExpression extends OpExpression {
-    OperatorType operatorType;
-    public BinOpExpression(Expression lhs, Expression rhs, OperatorType operatorType)
-    {
-        super(lhs, rhs);
-        this.operatorType = operatorType;
-    }
+    public class BinOpExpression extends OpExpression {
+        OperatorType operatorType;
+        public BinOpExpression(Expression lhs, Expression rhs, OperatorType operatorType)
+        {
+            super(lhs, rhs);
+            this.operatorType = operatorType;
+        }
 
     @Override
     public PyObject eval(ProgramState programState) {
@@ -27,9 +27,9 @@ public class BinOpExpression extends OpExpression {
             case Mod:
                 return lhs.mod(rhs);
             case Div:
-                return lhs.div(rhs);
+                return lhs.Div(rhs);
             case FloorDiv:
-                return lhs.floordiv(rhs);
+                return lhs.FloorDiv(rhs);
             default:
                 return new PyUnicode("暂未实现".getBytes(),"utf-8");
 

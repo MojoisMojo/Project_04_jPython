@@ -46,17 +46,19 @@ public class Interpreter {
         Parser parser = new Parser();
         if(node instanceof Assign){
             // Todo: 实现连续赋值 比如a=b=1
-            ArrayList<String> variableNames = new ArrayList<>();
+            List<String> variableNames = new ArrayList<>();
             exprType value = ((Assign) node).value;
             Expression expression = parser.parseExpression(value);
-            for(exprType target : ((Assign) node).targets){
-                // String variableName;
-                // exprType target = ((Assign) node).targets.get(0);
-                // variableName = (parser.getNameVal((Name) target));
-                variableNames.add(parser.getNameVal((Name) target));
+            for (exprType target : ((Assign) node).targets) {
+                String variableName = parser.getNameVal((Name) target);
+                variableNames.add(variableName);
             }
             return new AssignStatement(variableNames,expression);
         }
+
+
+
+
         if (node instanceof For){
             For forNode = (For) node;
             if(!(forNode.target instanceof Name) || !(forNode.iter instanceof Call)){
@@ -69,8 +71,8 @@ public class Interpreter {
             }
             Expression start = range.args.size() > 1 ? parser.parseExpression(range.args.get(0)) : new ConstantExpression(new PyLong(0));
             Expression end = range.args.size() > 1 ? parser.parseExpression(range.args.get(1)) : parser.parseExpression(range.args.get(0));
-            //Todo：从range中提取第3个参数
             Expression step = range.args.size() > 2 ? parser.parseExpression(range.args.get(2)) : new ConstantExpression(new PyLong(1));
+            //Todo：从range中提取第3个参数
             List<Statement> body = new ArrayList<>();
             List<Statement> elseBody = new ArrayList<>();
             for(stmtType statement: forNode.body ){
@@ -100,18 +102,18 @@ public class Interpreter {
         }
         if(node instanceof While){
             While whileNode = (While) node;
-            //Todo 实现对While的解析
             Expression test = parser.parseExpression(whileNode.test);
             List<Statement> body = new ArrayList<>();
             List<Statement> elseBody = new ArrayList<>();
-            for(stmtType stmt: whileNode.body){
-                body.add(this.parseAstNode(stmt));
+            for (stmtType stmt : whileNode.body) {
+                body.add(parseAstNode(stmt));
             }
-            if(whileNode.orelse != null){
-                for(stmtType stmt: whileNode.orelse){
-                    elseBody.add(this.parseAstNode(stmt));
+            if (whileNode.orelse != null) {
+                for (stmtType stmt : whileNode.orelse) {
+                    elseBody.add(parseAstNode(stmt));
                 }
             }
+            //Todo 实现对While的解析
             return new WhileStatement(test,body,elseBody);
         }
         if (node instanceof Expr){
@@ -148,8 +150,7 @@ public class Interpreter {
     }
 
     public static void main(String[] args) {
-        // String fileName = "src\\test\\resources\\InterpreterTask2.py";
-        String fileName = "D:\\.Learn_inNJU\\Project\\1_2\\JavaPY\\JavaPY\\108-pythoninterpreterbyjava\\src\\test\\resources\\InterpreterTask3.py";
+        String fileName = "src/test/resources/InterpreterTask2.py";
         File file = new File(fileName);
         try
         {

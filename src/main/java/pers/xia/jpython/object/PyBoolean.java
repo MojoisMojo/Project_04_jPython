@@ -64,9 +64,6 @@ public class PyBoolean extends PyObject
         return new PyLong(-this.asInt());
     }
 
-    // TODO mod div floorDiv 
-    // super()
-
 
     @Override
     public String getType(){
